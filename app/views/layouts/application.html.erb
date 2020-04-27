@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ガンダム -名セリフ掲示板-</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+
+    <!-- ナビゲーションバーの呼び出し -->
+    <%= render partial: 'layouts/navbar' %>
+
+    <!-- 成功時のフラッシュメッセージ -->
+    <% if flash[:success] %>
+    <p class="alert alert-primary text-center"><%= flash[:success] %></p>
+    <% end %>
+
+    <!-- 告知時のフラッシュメッセージ -->
+    <% if notice %>
+      <p class="alert alert-warning text-center"><%= notice %></p>
+    <% end %>
+
+    <!-- 失敗時のフラッシュメッセージ -->
+    <% if flash.now[:failure] %>      <!-- failure(フェイリヤー)：失敗 -->
+      <p class="alert alert-warning text-center"><%= flash.now[:failure] %></p>
+    <% end %>
+
+    <!-- 警告時のフラッシュメッセージ -->
+    <% if alert %>
+      <p class="alert alert-danger text-center"><%= alert %></p>
+    <% end %>
+
+    <!-- yieldに各ビューが代入される -->
+    <%= yield %>
+
+  </body>
+</html>

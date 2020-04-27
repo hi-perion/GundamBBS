@@ -1,0 +1,55 @@
+<!-- CSSファイルの読み込み -->
+<%= stylesheet_link_tag 'posts_index' %>
+
+<!-- JavaScriptファイルの読み込み -->
+<%= javascript_include_tag 'posts_index' %>
+
+<!-- 掲示板のタイトル -->
+<div class="container mt-2">
+  <div class="jumbotron text-center" style="background:url(/background_image.jpg) center no-repeat; background-size:cover;">
+  </div>
+</div>
+<h1 class="text-center">ガンダム</h1>
+<h3 class="text-center">-名セリフ掲示板-</h3>
+<p class="text-center">このサイトはガンダムシリーズのお気に入りのセリフを投稿するサイトです</p>
+<% if @current_user %>
+  <h4 class="text-center"><%= link_to("好きなセリフを投稿する", new_post_path) %></h4>
+<% else %>
+  <h4 class="text-center"><%= link_to("ユーザー登録される方はこちら", new_user_path) %></h4>
+<% end %>
+
+<!-- テーブルのタイトル -->
+<h2 class="text-center mt-5">投稿一覧</h2>
+
+<!-- テーブル -->
+<table class="table table-bordered mx-auto w-75 my-5">
+  <thead class="table-info text-center">
+    <tr>
+      <!-- 項目名を表示 -->
+      <th style="width:15%">投稿者</th>
+      <th style="width:85%">お気に入りのセリフ</th>
+    </tr>
+  </thead>
+  <tbody id="table_body">
+  <% @posts.each do |post| %>
+    <tr class="table_rows" data-table_row_id="<%= post.id %>">
+      <!-- 投稿者名を表示 -->
+      <% if post.user %>
+        <td class="text-center"><%= post.user.name %></td>
+      <% else %>
+        <td class="text-center">退会ユーザー</td>
+      <% end %>
+      <td>
+        <!-- セリフを表示 -->
+        <%= post.speech %>
+        <!-- リンクを表示 -->
+        <% if post.user_id == @current_user&.id %>
+          <%= link_to("削除", post, class: "float-right ml-1", method: :delete, data: { confirm: "本当に削除しますか？" }) %>
+          <%= link_to("編集", edit_post_path(post), class: "float-right ml-1") %>
+        <% end %>
+        <%= link_to("詳細", post, class: "float-right") %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
